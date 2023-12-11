@@ -1,4 +1,4 @@
-use rayon::iter::{split, IntoParallelRefIterator, ParallelIterator};
+use rayon::prelude::*;
 
 fn main() {
     let input = include_str!("./input.txt");
@@ -7,7 +7,7 @@ fn main() {
 }
 
 fn part1(input: &str) -> String {
-    let faces_in_order = [
+    let _faces_in_order = [
         'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2',
     ];
 
@@ -22,21 +22,26 @@ fn part1(input: &str) -> String {
         .map(|x| hand_from_str(x.to_owned()))
         .collect();
 
+    dbg!(v_hands);
+
     input.to_string()
 }
 
 fn hand_from_str(input: &str) -> Hand {
     let split: Vec<&str> = input.split_whitespace().collect();
     Hand {
-        cards: ['A', 'B', 'C', 'D', 'E'],
-        bid: 700,
+        cards: split[0].chars().collect(),
+        bid: split[1].parse().unwrap(),
     }
 }
 
+#[derive(Debug)]
 struct Hand {
-    cards: [char; 5],
+    cards: Vec<char>,
     bid: u64,
 }
+
+
 
 #[cfg(test)]
 mod tests {
